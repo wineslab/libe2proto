@@ -7,6 +7,7 @@ One library to ~rule~ serve them all.
 * [Project folders structure](#project-folders-structure)
 * [Installation guide](#installation-guide)
   * [Compiling code](#compiling-code)
+* [Creation of Asn1](#creation-of-asn1)
 
 ## Introduction
 This repo contains code that is generated from ASN1 descriptions
@@ -52,3 +53,8 @@ Use make to install shared library (.so).
 ```
 $ sudo make install
 ```
+
+## Creation of ASN1C
+
+I started from [ns-o-ran-xapp-rc](https://github.com/wineslab/ns-o-ran-xapp-rc), which included the E2SM `e-release` control.
+In this branch I merge the [ns-o-ran-scp-ric-app-kpimon](https://github.com/wineslab/ns-o-ran-scp-ric-app-kpimon) which are still at `e-release`.
