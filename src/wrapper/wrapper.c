@@ -28,7 +28,6 @@ E2AP_PDU_t* decode_E2AP_PDU(const void* buffer, size_t buf_size)
     }
 }
 
-
 /* RICsubscriptionRequest */
 long e2ap_get_ric_subscription_request_sequence_number(void *buffer, size_t buf_size)
 {
