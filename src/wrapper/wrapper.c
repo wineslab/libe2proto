@@ -11,7 +11,7 @@ size_t encode_E2AP_PDU(E2AP_PDU_t* pdu, void* buffer, size_t buf_size)
         fprintf(stderr, "Cannot encode %s: %s\n", encode_result.failed_type->name, strerror(errno));
         return -1;
     } else {
-          return encode_result.encoded;
+        return encode_result.encoded;
     }
 }
 
@@ -27,7 +27,6 @@ E2AP_PDU_t* decode_E2AP_PDU(const void* buffer, size_t buf_size)
         return 0;
     }
 }
-
 /* RICsubscriptionRequest */
 long e2ap_get_ric_subscription_request_sequence_number(void *buffer, size_t buf_size)
 {
@@ -665,7 +664,7 @@ void e2ap_free_decoded_ric_indication_message(RICindicationMsg* msg) {
 }
 
 
-ssize_t e2sm_encode_ric_event_trigger_definition(void *buffer, size_t buf_size, size_t event_trigger_count, long *RT_periods) {
+ssize_t e2sm_encode_ric_event_trigger_definition(void *buffer, size_t buf_size, size_t event_trigger_count, long RT_periods) {
 	E2SM_KPM_EventTriggerDefinition_t *eventTriggerDef = (E2SM_KPM_EventTriggerDefinition_t *)calloc(1, sizeof(E2SM_KPM_EventTriggerDefinition_t));
 	if(!eventTriggerDef) {
 		fprintf(stderr, "alloc EventTriggerDefinition failed\n");
@@ -678,22 +677,9 @@ ssize_t e2sm_encode_ric_event_trigger_definition(void *buffer, size_t buf_size, 
 		ASN_STRUCT_FREE(asn_DEF_E2SM_KPM_EventTriggerDefinition, eventTriggerDef);
 		return -1;
 	}
-
-	eventTriggerDef->present = E2SM_KPM_EventTriggerDefinition_PR_eventDefinition_Format1;
-	eventTriggerDef->choice.eventDefinition_Format1 = innerDef;
-
-	struct E2SM_KPM_EventTriggerDefinition_Format1__policyTest_List *policyTestList = (struct E2SM_KPM_EventTriggerDefinition_Format1__policyTest_List *)calloc(1, sizeof(struct E2SM_KPM_EventTriggerDefinition_Format1__policyTest_List));
-	innerDef->policyTest_List = policyTestList;
-	
-	int index = 0;
-	while(index < event_trigger_count) {
-		Trigger_ConditionIE_Item_t *triggerCondition = (Trigger_ConditionIE_Item_t *)calloc(1, sizeof(Trigger_ConditionIE_Item_t));
-		assert(triggerCondition != 0);
-		triggerCondition->report_Period_IE = RT_periods[index];
-
-		ASN_SEQUENCE_ADD(&policyTestList->list, triggerCondition);
-		index++;
-	}
+	innerDef->reportingPeriod=RT_periods;
+	eventTriggerDef->eventDefinition_formats.present = E2SM_KPM_EventTriggerDefinition__eventDefinition_formats_PR_eventDefinition_Format1;
+	eventTriggerDef->eventDefinition_formats.choice.eventDefinition_Format1 = innerDef;
 
 	asn_enc_rval_t encode_result;
     encode_result = aper_encode_to_buffer(&asn_DEF_E2SM_KPM_EventTriggerDefinition, NULL, eventTriggerDef, buffer, buf_size);
