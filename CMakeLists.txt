@@ -23,7 +23,7 @@
 #	-D-DPRESERVE_PTYPE=1 to prevent changing the processor type to a standard string
 
 cmake_minimum_required( VERSION 3.5 )
-project( libe2ap )
+project( libe2proto )
 
 #
 #	Versioning is based on the E2 specification version number in play when the generated

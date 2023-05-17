@@ -664,33 +664,6 @@ void e2ap_free_decoded_ric_indication_message(RICindicationMsg* msg) {
 }
 
 
-ssize_t e2sm_encode_ric_event_trigger_definition(void *buffer, size_t buf_size, size_t event_trigger_count, long RT_periods) {
-	E2SM_KPM_EventTriggerDefinition_t *eventTriggerDef = (E2SM_KPM_EventTriggerDefinition_t *)calloc(1, sizeof(E2SM_KPM_EventTriggerDefinition_t));
-	if(!eventTriggerDef) {
-		fprintf(stderr, "alloc EventTriggerDefinition failed\n");
-		return -1;
-	}
-
-	E2SM_KPM_EventTriggerDefinition_Format1_t *innerDef = (E2SM_KPM_EventTriggerDefinition_Format1_t *)calloc(1, sizeof(E2SM_KPM_EventTriggerDefinition_Format1_t));
-	if(!innerDef) {
-		fprintf(stderr, "alloc EventTriggerDefinition Format1 failed\n");
-		ASN_STRUCT_FREE(asn_DEF_E2SM_KPM_EventTriggerDefinition, eventTriggerDef);
-		return -1;
-	}
-	innerDef->reportingPeriod=RT_periods;
-	eventTriggerDef->eventDefinition_formats.present = E2SM_KPM_EventTriggerDefinition__eventDefinition_formats_PR_eventDefinition_Format1;
-	eventTriggerDef->eventDefinition_formats.choice.eventDefinition_Format1 = innerDef;
-
-	asn_enc_rval_t encode_result;
-    encode_result = aper_encode_to_buffer(&asn_DEF_E2SM_KPM_EventTriggerDefinition, NULL, eventTriggerDef, buffer, buf_size);
-    ASN_STRUCT_FREE(asn_DEF_E2SM_KPM_EventTriggerDefinition, eventTriggerDef);
-    if(encode_result.encoded == -1) {
-        fprintf(stderr, "Cannot encode %s: %s\n", encode_result.failed_type->name, strerror(errno));
-        return -1;
-    } else {
-	    return encode_result.encoded;
-	}
-}
 
 ssize_t e2sm_encode_ric_action_definition(void *buffer, size_t buf_size, long ric_style_type) {
 	E2SM_KPM_ActionDefinition_t *actionDef = (E2SM_KPM_ActionDefinition_t *)calloc(1, sizeof(E2SM_KPM_ActionDefinition_t));
@@ -699,7 +672,7 @@ ssize_t e2sm_encode_ric_action_definition(void *buffer, size_t buf_size, long ri
 		return -1;
 	}
 
-	actionDef->ric_Style_Type = ric_style_type;
+	actionDef->ric_ReportStyle_Type = ric_style_type;
 
 	asn_enc_rval_t encode_result;
     encode_result = aper_encode_to_buffer(&asn_DEF_E2SM_KPM_ActionDefinition, NULL, actionDef, buffer, buf_size);
