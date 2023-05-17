@@ -57,4 +57,5 @@ $ sudo make install
 ## Creation of ASN1C
 
 I started from [ns-o-ran-xapp-rc](https://github.com/wineslab/ns-o-ran-xapp-rc), which included the E2SM `e-release` control.
-In this branch I merge the [ns-o-ran-scp-ric-app-kpimon](https://github.com/wineslab/ns-o-ran-scp-ric-app-kpimon) which are still at `e-release`.
+Subsequentely, I have included merge the [ns-o-ran-scp-ric-app-kpimon](https://github.com/wineslab/ns-o-ran-scp-ric-app-kpimon) which are still at `e-release`.
+Finally, I used the ASN1 from [`ns-o-ran` e2sim](https://github.com/wineslab/oran-e2sim).
