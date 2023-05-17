@@ -182,7 +182,7 @@ long e2ap_get_ric_subscription_delete_failure_sequence_number(void *buffer, size
 RICindicationMsg* e2ap_decode_ric_indication_message(void *buffer, size_t buf_size);
 void e2ap_free_decoded_ric_indication_message(RICindicationMsg* msg);
 
-ssize_t e2sm_encode_ric_event_trigger_definition(void *buffer, size_t buf_size, size_t event_trigger_count, long RT_periods);
+ssize_t e2sm_encode_ric_event_trigger_definition(void *buffer, size_t buf_size, size_t event_trigger_count, long *RT_periods);
 ssize_t e2sm_encode_ric_action_definition(void *buffer, size_t buf_size, long ric_style_type);
 E2SM_KPM_IndicationHeader_t* e2sm_decode_ric_indication_header(void *buffer, size_t buf_size);
 void e2sm_free_ric_indication_header(E2SM_KPM_IndicationHeader_t* indHdr);

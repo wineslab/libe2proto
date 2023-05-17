@@ -664,6 +664,46 @@ void e2ap_free_decoded_ric_indication_message(RICindicationMsg* msg) {
 }
 
 
+ssize_t e2sm_encode_ric_event_trigger_definition(void *buffer, size_t buf_size, size_t event_trigger_count, long *RT_periods) {
+	E2SM_KPM_EventTriggerDefinition_t *eventTriggerDef = (E2SM_KPM_EventTriggerDefinition_t *)calloc(1, sizeof(E2SM_KPM_EventTriggerDefinition_t));
+	if(!eventTriggerDef) {
+		fprintf(stderr, "alloc EventTriggerDefinition failed\n");
+		return -1;
+	}
+
+	E2SM_KPM_EventTriggerDefinition_Format1_t *innerDef = (E2SM_KPM_EventTriggerDefinition_Format1_t *)calloc(1, sizeof(E2SM_KPM_EventTriggerDefinition_Format1_t));
+	if(!innerDef) {
+		fprintf(stderr, "alloc EventTriggerDefinition Format1 failed\n");
+		ASN_STRUCT_FREE(asn_DEF_E2SM_KPM_EventTriggerDefinition, eventTriggerDef);
+		return -1;
+	}
+
+	eventTriggerDef->present = E2SM_KPM_EventTriggerDefinition_PR_eventDefinition_Format1;
+	eventTriggerDef->choice.eventDefinition_Format1 = innerDef;
+
+	struct E2SM_KPM_EventTriggerDefinition_Format1__policyTest_List *policyTestList = (struct E2SM_KPM_EventTriggerDefinition_Format1__policyTest_List *)calloc(1, sizeof(struct E2SM_KPM_EventTriggerDefinition_Format1__policyTest_List));
+	innerDef->policyTest_List = policyTestList;
+
+	int index = 0;
+	while(index < event_trigger_count) {
+		Trigger_ConditionIE_Item_t *triggerCondition = (Trigger_ConditionIE_Item_t *)calloc(1, sizeof(Trigger_ConditionIE_Item_t));
+		assert(triggerCondition != 0);
+		triggerCondition->report_Period_IE = RT_periods[index];
+
+		ASN_SEQUENCE_ADD(&policyTestList->list, triggerCondition);
+		index++;
+	}
+
+	asn_enc_rval_t encode_result;
+    encode_result = aper_encode_to_buffer(&asn_DEF_E2SM_KPM_EventTriggerDefinition, NULL, eventTriggerDef, buffer, buf_size);
+    ASN_STRUCT_FREE(asn_DEF_E2SM_KPM_EventTriggerDefinition, eventTriggerDef);
+    if(encode_result.encoded == -1) {
+        fprintf(stderr, "Cannot encode %s: %s\n", encode_result.failed_type->name, strerror(errno));
+        return -1;
+    } else {
+	    return encode_result.encoded;
+	}
+}
 
 ssize_t e2sm_encode_ric_action_definition(void *buffer, size_t buf_size, long ric_style_type) {
 	E2SM_KPM_ActionDefinition_t *actionDef = (E2SM_KPM_ActionDefinition_t *)calloc(1, sizeof(E2SM_KPM_ActionDefinition_t));
