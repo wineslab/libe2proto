@@ -3,7 +3,7 @@
 One library to ~rule~ serve them all.
 
 ## Table of contents
-* [Introduction] (#introduction)
+* [Introduction](#introduction)
 * [Project folders structure](#project-folders-structure)
 * [Installation guide](#installation-guide)
   * [Compiling code](#compiling-code)
