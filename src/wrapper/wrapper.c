@@ -11,7 +11,7 @@ size_t encode_E2AP_PDU(E2AP_PDU_t* pdu, void* buffer, size_t buf_size)
         fprintf(stderr, "Cannot encode %s: %s\n", encode_result.failed_type->name, strerror(errno));
         return -1;
     } else {
-          return encode_result.encoded;
+        return encode_result.encoded;
     }
 }
 
@@ -27,8 +27,6 @@ E2AP_PDU_t* decode_E2AP_PDU(const void* buffer, size_t buf_size)
         return 0;
     }
 }
-
-
 /* RICsubscriptionRequest */
 long e2ap_get_ric_subscription_request_sequence_number(void *buffer, size_t buf_size)
 {
@@ -685,7 +683,7 @@ ssize_t e2sm_encode_ric_event_trigger_definition(void *buffer, size_t buf_size, 
 
 	struct E2SM_KPM_EventTriggerDefinition_Format1__policyTest_List *policyTestList = (struct E2SM_KPM_EventTriggerDefinition_Format1__policyTest_List *)calloc(1, sizeof(struct E2SM_KPM_EventTriggerDefinition_Format1__policyTest_List));
 	innerDef->policyTest_List = policyTestList;
-	
+
 	int index = 0;
 	while(index < event_trigger_count) {
 		Trigger_ConditionIE_Item_t *triggerCondition = (Trigger_ConditionIE_Item_t *)calloc(1, sizeof(Trigger_ConditionIE_Item_t));
@@ -714,7 +712,7 @@ ssize_t e2sm_encode_ric_action_definition(void *buffer, size_t buf_size, long ri
 		return -1;
 	}
 
-	actionDef->ric_Style_Type = ric_style_type;
+	actionDef->ric_ReportStyle_Type = ric_style_type;
 
 	asn_enc_rval_t encode_result;
     encode_result = aper_encode_to_buffer(&asn_DEF_E2SM_KPM_ActionDefinition, NULL, actionDef, buffer, buf_size);

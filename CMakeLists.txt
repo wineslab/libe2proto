@@ -23,7 +23,7 @@
 #	-D-DPRESERVE_PTYPE=1 to prevent changing the processor type to a standard string
 
 cmake_minimum_required( VERSION 3.5 )
-project( libe2ap )
+project( libe2proto )
 
 #
 #	Versioning is based on the E2 specification version number in play when the generated
@@ -188,7 +188,7 @@ add_library(libe2proto SHARED
 	"$<TARGET_OBJECTS:e2ap_objects>;$<TARGET_OBJECTS:e2sm_objects>;$<TARGET_OBJECTS:wrapper_objects>;"
 )
 set_target_properties( libe2proto
-	PROPERTIES
+	PROPERTIES PREFIX ""
 	OUTPUT_NAME "libe2proto"
 	SOVERSION ${major_version}
 	VERSION ${major_version}.${minor_version}.${patch_level}
